@@ -54,3 +54,11 @@ $ npm install viem
 [abi.json](contracts/output/DadJoke.abi)
 DadJoke Contract Address: 0x2683167d86c33B45cc05ae94a834a29E967Ece70
 
+
+## Set up
+
+```
+1. cd dad-jokes
+2. npm run dev
+```
+![Dad-Jokes](misc/img/Dad-Jokes.png)

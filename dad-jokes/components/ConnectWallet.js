@@ -12,6 +12,12 @@ import dadJokesABI from "@/lib/dadJokesABI.json";
 import { useVote } from "@/hooks/useVote";
 import RewardSection from "@/components/RewardSection";
 
+import { useWithdraw } from "@/hooks/useWithdraw";
+import WithdrawSection from "@/components/WithdrawSection";
+
+import { useSubmitJoke } from "@/hooks/useSubmitJoke";
+import JokeModal from "@/components/JokeModal";
+
 // Component to display the wallet status (connected or disconnected)
 export default function WalletButton({ index }) {
     const [publicClient, setPublicClient] = useState(null);
@@ -20,6 +26,12 @@ export default function WalletButton({ index }) {
 
     const { address, balance, handleClick } = useWallet(dadJokesContract);
     const { handleVote } = useVote(dadJokesContract, walletClient, publicClient);
+    const { handleWithdraw } = useWithdraw(dadJokesContract, walletClient, publicClient);
+
+    const { isModalOpen, setIsModalOpen, handleSubmit } = useSubmitJoke(publicClient, walletClient, dadJokesContract);
+
+    const [setup, setSetup] = useState("");
+    const [punchline, setPunchline] = useState("");
 
     useEffect(() => {
         const initializeClients = async () => {
@@ -57,6 +69,28 @@ export default function WalletButton({ index }) {
     return (
         <>
             <RewardSection index={index} handleVote={handleVote} />
+            <div className="mt-6 flex items-center w-full bg-gray-800 bg-opacity-25 p-4 rounded">
+                <div className="flex items-center justify-center w-full">
+                    <WithdrawSection handleWithdraw={handleWithdraw} balance={balance} />
+                    <button
+                        className="bg-primaryDark text-primaryLight font-sans px-4 py-2 rounded"
+                        onClick={() => setIsModalOpen(true)}
+                    >
+                        Add Joke
+                    </button>
+                </div>
+                <JokeModal
+                    {...{
+                        isModalOpen,
+                        setIsModalOpen,
+                        handleSubmit,
+                        setup,
+                        setSetup,
+                        punchline,
+                        setPunchline,
+                    }}
+                />
+            </div>
         </>
     );
 }

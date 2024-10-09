@@ -1,7 +1,7 @@
 import { sepolia } from "viem/chains";
 import { parseEther } from "viem/utils";
 
-export async function useVote(dadJokesContract, walletClient, publicClient) {
+export function useVote(dadJokesContract, walletClient, publicClient) {
     async function handleVote(index, type) {
         const reward = type + 1;
         // Instantiate a Wallet Client and a Public Client
@@ -37,5 +37,6 @@ export async function useVote(dadJokesContract, walletClient, publicClient) {
         });
         await walletClient.writeContract(request);
     }
+
     return { handleVote };
 }
